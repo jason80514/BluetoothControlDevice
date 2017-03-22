@@ -1,0 +1,197 @@
+/*
+ Serial Call and Response
+ Language: Wiring/Arduino
+ 
+ This program sends an ASCII A (byte of value 65) on startup
+ and repeats that until it gets some data in.
+ Then it waits for a byte in the serial port, and 
+ sends three sensor values whenever it gets a byte in.
+ 
+ Thanks to Greg Shakar and Scott Fitzgerald for the improvements
+ 
+   The circuit:
+ * potentiometers attached to analog inputs 0 and 1 
+ * pushbutton attached to digital I/O 2
+ 
+ Created 26 Sept. 2005
+ by Tom Igoe
+ Modified 4 Sep 2010
+ by Tom Igoe and Scott Fitzgerald
+
+ This example code is in the public domain.
+
+ http://www.arduino.cc/en/Tutorial/SerialCallResponse
+
+*/
+
+#define LED_PIN1  4
+#define LED_PIN2  5
+#define LED_PIN3  13
+#define LED_PIN4  7
+
+#define LED_PIN5  8
+#define LED_PIN6  9
+#define LED_PIN7  10
+#define LED_PIN8  11
+
+
+int firstSensor = 0;    // first analog sensor
+int secondSensor = 0;   // second analog sensor
+int thirdSensor = 0;    // digital sensor
+int inByte = 0;         // incoming serial byte
+boolean status_unlock;
+boolean status_bluetooth;
+
+long interval = 1000;           // interval at which to blink (milliseconds)
+long previousMillis = 0;        // will store last time LED was updat
+int minite,sec;
+
+
+void setup()
+{
+  // start serial port at 9600 bps:
+  Serial.begin(9600);
+  //pinMode(2, INPUT);   // digital sensor is on digital pin 2
+  //establishContact();  // send a byte to establish contact until receiver responds 
+  
+  pinMode(LED_PIN1, OUTPUT);
+  pinMode(LED_PIN2, OUTPUT);
+  pinMode(LED_PIN3, OUTPUT);
+  pinMode(LED_PIN4, OUTPUT);
+
+  pinMode(LED_PIN5, OUTPUT);
+  pinMode(LED_PIN6, OUTPUT);
+  pinMode(LED_PIN7, OUTPUT);
+  pinMode(LED_PIN8, OUTPUT);
+  
+  digitalWrite(LED_PIN1, LOW);  // switch on LED
+  digitalWrite(LED_PIN2, LOW);  // switch on LED
+  digitalWrite(LED_PIN3, LOW);  // switch on LED
+  digitalWrite(LED_PIN4, LOW);  // switch on LED
+    
+  digitalWrite(LED_PIN5, LOW);  // switch on LED
+  digitalWrite(LED_PIN6, LOW);  // switch on LED
+  digitalWrite(LED_PIN7, LOW);  // switch on LED
+  digitalWrite(LED_PIN8, LOW);  // switch on LED 
+  
+  status_bluetooth = true;
+  status_unlock = false;
+  sec = 0;
+}
+
+void loop()
+{
+  if (Serial.available() > 0) {   
+       
+    inByte = Serial.read();             // get incoming byte:  
+
+    if(inByte == 'A'){    
+      digitalWrite(LED_PIN1, HIGH);        // switch on LED
+      Serial.print('A');         // send a char     
+      status_unlock = false;
+      inByte = 0;     
+    }
+    
+    if(inByte == 'a'){    
+      Serial.print('a');         // send a char
+      digitalWrite(LED_PIN1, LOW);        // switch on LED
+      
+      status_unlock = true;
+      sec = 0;
+      inByte = 0;     
+    }
+    
+    if(inByte == 'B'){    
+      digitalWrite(LED_PIN2, HIGH);        // switch on LED
+      Serial.print('B');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'b'){    
+      digitalWrite(LED_PIN2, LOW);        // switch on LED
+      Serial.print('b');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'C'){    
+      digitalWrite(LED_PIN3, HIGH);        // switch on LED
+      Serial.print('C');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'c'){    
+      digitalWrite(LED_PIN3, LOW);        // switch on LED
+      Serial.print('c');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'D'){    
+      digitalWrite(LED_PIN4, HIGH);        // switch on LED
+      Serial.print('D');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'd'){    
+      digitalWrite(LED_PIN4, LOW);        // switch on LED
+      Serial.print('d');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'E'){    
+      digitalWrite(LED_PIN5, HIGH);        // switch on LED
+      Serial.print('E');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'e'){    
+      digitalWrite(LED_PIN5, LOW);        // switch on LED
+      Serial.print('e');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'F'){    
+      digitalWrite(LED_PIN6, HIGH);        // switch on LED
+      Serial.print('F');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'f'){    
+      digitalWrite(LED_PIN6, LOW);        // switch on LED
+      Serial.print('f');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'G'){    
+      digitalWrite(LED_PIN7, HIGH);        // switch on LED
+      Serial.print('G');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'g'){    
+      digitalWrite(LED_PIN7, LOW);        // switch on LED
+      Serial.print('g');         // send a char
+      inByte = 0;     
+    }    
+	
+	if(inByte == 'H'){    
+      digitalWrite(LED_PIN8, HIGH);        // switch on LED
+      Serial.print('H');         // send a char
+      inByte = 0;     
+    }
+    
+    if(inByte == 'h'){    
+      digitalWrite(LED_PIN8, LOW);        // switch on LED
+      Serial.print('h');         // send a char
+      inByte = 0;     
+    }    
+    
+    if(inByte == 'S'){    
+      
+      Serial.print('S');         // send a char
+      status_bluetooth = true;
+      sec = 0;
+          
+    }    
+  } // if(Serial
+}
+ 
